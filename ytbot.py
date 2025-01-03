@@ -1,4 +1,4 @@
-# Import necessary libraries for the YouTube bot
+
 import gradio as gr
 import re  #For extracting video id 
 from youtube_transcript_api import YouTubeTranscriptApi  # For extracting transcripts from YouTube videos
@@ -38,11 +38,10 @@ def get_transcript(url):
         elif not i.is_generated:
             transcript = i.fetch()
     
-    # Return the fetched transcript (in list format, with time stamps and text)
     return transcript
 
 def process(transcript):
-    # Initialize an empty string to hold the formatted transcript
+    
     txt = ""
     
     # Loop through each entry in the transcript
@@ -54,7 +53,7 @@ def process(transcript):
             # If there is an issue accessing 'text' or 'start', skip this entry
             pass
             
-    # Return the processed transcript as a single string
+    
     return txt
 
 def chunk_transcript(processed_transcript, chunk_size=200, chunk_overlap=20):
@@ -64,30 +63,29 @@ def chunk_transcript(processed_transcript, chunk_size=200, chunk_overlap=20):
         chunk_overlap=chunk_overlap
     )
 
-    # Split the transcript into chunks
+    
     chunks = text_splitter.split_text(processed_transcript)
     return chunks
 
 
 def setup_credentials():
-    # Define the model ID for the WatsonX model being used
+    
     model_id = ModelTypes.GRANITE_13B_CHAT_V2
     
     # Set up the credentials by specifying the URL for IBM Watson services
     credentials = Credentials(url="https://us-south.ml.cloud.ibm.com")
     
-    # Create an API client using the credentials
     client = APIClient(credentials)
     
-    # Define the project ID associated with the WatsonX platform
+    
     project_id = "skills-network"
     
-    # Return the model ID, credentials, client, and project ID for later use
+    
     return model_id, credentials, client, project_id
 
 
 def define_parameters():
-    # Return a dictionary containing the parameters for the WatsonX model
+    
     return {
         # Set the decoding method to GREEDY for generating text
         GenParams.DECODING_METHOD: DecodingMethods.GREEDY,
